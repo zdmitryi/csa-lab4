@@ -1,0 +1,40 @@
+algorithm: "is_prime_edge"
+source: |
+  (defun is-prime (n)
+    (if (< n 2)
+        0
+        (do
+          (setq i 2)
+          (setq result 1)
+          (while (and (<= (* i i) n) (= result 1))
+            (do
+              (if (= (% n i) 0)
+                  (setq result 0))
+              (setq i (+ i 1))))
+          result)))
+
+  (print-int (is-prime (read-int-line)))
+  (print-char 10)
+input_schedule: "1\n"
+expected_output: "0\n"
+expected_ticks: 6000
+machine_code_sha256: "df4ba150a410cce75f61c6c6edf30d33ed6c4290baca0ffca676fe3cecc88022"
+listing_excerpt: |
+  0x19C0 - 0x16300000 - POP
+  0x19C4 - 0x1330012C - ST
+  0x19C8 - 0x11300120 - LD
+  0x19CC - 0x15300000 - PUSH
+  0x19D0 - 0x1000000A - LDI
+  0x19D4 - 0x15000000 - PUSH
+  0x19D8 - 0x16000000 - POP
+  0x19DC - 0x13000120 - ST
+  0x19E0 - 0x47000164 - CALL
+  0x19E4 - 0x16300000 - POP
+  0x19E8 - 0x13300120 - ST
+  0x19EC - 0x01000000 - HALT
+log_excerpt: |
+  tick=    1 | PC=0x194C | IF=1948 ID=---- EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=    2 | PC=0x1950 | IF=194C ID=1948 EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=   19 | INTR accepted -> PC=0x03C0 depth=1 saved_pc=0x1988
+  tick= 1437 | PC=0x19F4 | IF=19F0 ID=19EC EX=19E8 WB=---- | R0=10 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick= 1438 | PC=0x19F4 | IF=19F0 ID=---- EX=---- WB=19E8 | R0=10 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0

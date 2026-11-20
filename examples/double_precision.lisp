@@ -1,0 +1,18 @@
+(setq a_hi 256)
+(setq a_lo 5)
+(setq b_hi 0)
+(setq b_lo 7)
+
+(setq s_lo (adc a_lo b_lo))
+(setq s_hi (adc a_hi b_hi))
+(print-int s_hi)
+(print-char 32)
+(print-int s_lo)
+(print-char 10)
+
+(setq d_lo (sbc a_lo b_lo))
+(setq d_hi (sbc a_hi b_hi))
+(print-int d_hi)
+(print-char 32)
+(print-int d_lo)
+(print-char 10)

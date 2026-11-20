@@ -1,0 +1,31 @@
+algorithm: "cat"
+source: |
+  (setq c (getc))
+  (while (/= c -1)
+    (do
+      (out 1 c)
+      (setq c (getc))))
+input_schedule: "Hello\n"
+expected_output: "Hello\n"
+expected_ticks: 12000
+expected_interrupts: 7
+machine_code_sha256: "76b8b9a22e722ca3b39b080b629006b104fe695772f527f0285c7bc27fd2657e"
+listing_excerpt: |
+  0x1868 - 0x42001870 - JNZ
+  0x186C - 0x10100000 - LDI
+  0x1870 - 0x17010000 - MOV
+  0x1874 - 0x38000000 - CMPI
+  0x1878 - 0x41001890 - JZ
+  0x187C - 0x110005EC - LD
+  0x1880 - 0x51000000 - OUT
+  0x1884 - 0x47000504 - CALL
+  0x1888 - 0x130005EC - ST
+  0x188C - 0x4000184C - JMP
+  0x1890 - 0x10000000 - LDI
+  0x1894 - 0x01000000 - HALT
+log_excerpt: |
+  tick=    1 | PC=0x180C | IF=1808 ID=---- EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=    2 | PC=0x1810 | IF=180C ID=1808 EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=   19 | INTR accepted -> PC=0x03C0 depth=1 saved_pc=0x0504
+  tick= 6106 | PC=0x189C | IF=1898 ID=1894 EX=1890 WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=1 N=0 C=0 | INTR=off pend=0
+  tick= 6107 | PC=0x189C | IF=1898 ID=---- EX=---- WB=1890 | R0=0 R1=0 R2=0 R3=0 | Z=1 N=0 C=0 | INTR=off pend=0

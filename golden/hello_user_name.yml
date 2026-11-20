@@ -1,0 +1,37 @@
+algorithm: "hello_user_name"
+source: |
+  (setq name (buf 64))
+
+  (print-str "What is your name? ")
+  (setq len (read-line-limited name 64))
+  (if (= len -1)
+      (print-str "-1")
+      (do
+        (print-str "Hello, ")
+        (print-str name)
+        (print-str "!")))
+  (print-char 10)
+input_schedule: "World\n"
+expected_output: "What is your name? Hello, World!\n"
+expected_ticks: 30000
+expected_interrupts: 7
+machine_code_sha256: "4951a8ff555bec43704bdd804918360eff9dd8f0a0cb8fa0dcbb2e9bfce75e1b"
+listing_excerpt: |
+  0x1974 - 0x16300000 - POP
+  0x1978 - 0x13300124 - ST
+  0x197C - 0x11300120 - LD
+  0x1980 - 0x15300000 - PUSH
+  0x1984 - 0x1000000A - LDI
+  0x1988 - 0x15000000 - PUSH
+  0x198C - 0x16000000 - POP
+  0x1990 - 0x13000120 - ST
+  0x1994 - 0x47000164 - CALL
+  0x1998 - 0x16300000 - POP
+  0x199C - 0x13300120 - ST
+  0x19A0 - 0x01000000 - HALT
+log_excerpt: |
+  tick=    1 | PC=0x180C | IF=1808 ID=---- EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=    2 | PC=0x1810 | IF=180C ID=1808 EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=   21 | INTR accepted -> PC=0x03C0 depth=1 saved_pc=0x1850
+  tick= 6897 | PC=0x19A8 | IF=19A4 ID=19A0 EX=199C WB=---- | R0=10 R1=0 R2=0 R3=0 | Z=1 N=0 C=0 | INTR=off pend=0
+  tick= 6898 | PC=0x19A8 | IF=19A4 ID=---- EX=---- WB=199C | R0=10 R1=0 R2=0 R3=0 | Z=1 N=0 C=0 | INTR=off pend=0

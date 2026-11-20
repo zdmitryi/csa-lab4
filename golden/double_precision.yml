@@ -1,0 +1,42 @@
+algorithm: "double_precision"
+source: |
+  (setq a_hi 256)
+  (setq a_lo 5)
+  (setq b_hi 0)
+  (setq b_lo 7)
+
+  (setq s_lo (adc a_lo b_lo))
+  (setq s_hi (adc a_hi b_hi))
+  (print-int s_hi)
+  (print-char 32)
+  (print-int s_lo)
+  (print-char 10)
+
+  (setq d_lo (sbc a_lo b_lo))
+  (setq d_hi (sbc a_hi b_hi))
+  (print-int d_hi)
+  (print-char 32)
+  (print-int d_lo)
+  (print-char 10)
+expected_output: "256 12\n255 -2\n"
+expected_ticks: 8000
+expected_interrupts: 0
+machine_code_sha256: "def91284f1b92d6e4e2e7824ac5e113e1ecd50338f94bc6584f0c78014f0b03f"
+listing_excerpt: |
+  0x19C8 - 0x16300000 - POP
+  0x19CC - 0x1330012C - ST
+  0x19D0 - 0x11300120 - LD
+  0x19D4 - 0x15300000 - PUSH
+  0x19D8 - 0x1000000A - LDI
+  0x19DC - 0x15000000 - PUSH
+  0x19E0 - 0x16000000 - POP
+  0x19E4 - 0x13000120 - ST
+  0x19E8 - 0x47000164 - CALL
+  0x19EC - 0x16300000 - POP
+  0x19F0 - 0x13300120 - ST
+  0x19F4 - 0x01000000 - HALT
+log_excerpt: |
+  tick=    1 | PC=0x180C | IF=1808 ID=---- EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=    2 | PC=0x1810 | IF=180C ID=1808 EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=  889 | PC=0x19FC | IF=19F8 ID=19F4 EX=19F0 WB=---- | R0=10 R1=2 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=  890 | PC=0x19FC | IF=19F8 ID=---- EX=---- WB=19F0 | R0=10 R1=2 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0

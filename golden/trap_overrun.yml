@@ -1,0 +1,40 @@
+algorithm: "trap_overrun"
+source: |
+  (setq eof 0)
+
+  (defun on-input ()
+    (do
+      (setq c (in 0))
+      (if (= c -1)
+          (setq eof 1)
+          (out 1 c))))
+
+  (interrupt-handler on-input 0)
+
+  (while (= eof 0) (do))
+  (print-char 10)
+input_schedule: [[10, "A"], [10, "B"], [2000, "EOF"]]
+expected_output: "A\n"
+expected_ticks: 5000
+expected_interrupts: 2
+expected_overrun: 1
+machine_code_sha256: "361beb08987d7e6a7c6ec05d693a9d5ce794be375361641b43d867e1a458d0ac"
+listing_excerpt: |
+  0x18F0 - 0x400018BC - JMP
+  0x18F4 - 0x10000000 - LDI
+  0x18F8 - 0x11300120 - LD
+  0x18FC - 0x15300000 - PUSH
+  0x1900 - 0x1000000A - LDI
+  0x1904 - 0x15000000 - PUSH
+  0x1908 - 0x16000000 - POP
+  0x190C - 0x13000120 - ST
+  0x1910 - 0x47000164 - CALL
+  0x1914 - 0x16300000 - POP
+  0x1918 - 0x13300120 - ST
+  0x191C - 0x01000000 - HALT
+log_excerpt: |
+  tick=    1 | PC=0x187C | IF=1878 ID=---- EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=    2 | PC=0x1880 | IF=187C ID=1878 EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=   21 | INTR accepted -> PC=0x1808 depth=1 saved_pc=0x18C0
+  tick= 2072 | PC=0x1924 | IF=1920 ID=191C EX=1918 WB=---- | R0=10 R1=0 R2=0 R3=0 | Z=1 N=0 C=0 | INTR=off pend=0
+  tick= 2073 | PC=0x1924 | IF=1920 ID=---- EX=---- WB=1918 | R0=10 R1=0 R2=0 R3=0 | Z=1 N=0 C=0 | INTR=off pend=0

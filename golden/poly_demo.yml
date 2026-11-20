@@ -1,0 +1,29 @@
+algorithm: "poly_demo"
+source: |
+  (print-int (poly 1 (2 3) (4 5)))
+  (print-char 32)
+
+  (print-int (poly 10 (1 1) (2 2) (3 3) (4 4)))
+  (print-char 10)
+expected_output: "27 40\n"
+expected_ticks: 4000
+expected_interrupts: 0
+machine_code_sha256: "c53be0e67f0600f37507a84716748fde04593c5365e433306c74447c5b455b31"
+listing_excerpt: |
+  0x18E0 - 0x16300000 - POP
+  0x18E4 - 0x1330012C - ST
+  0x18E8 - 0x11300120 - LD
+  0x18EC - 0x15300000 - PUSH
+  0x18F0 - 0x1000000A - LDI
+  0x18F4 - 0x15000000 - PUSH
+  0x18F8 - 0x16000000 - POP
+  0x18FC - 0x13000120 - ST
+  0x1900 - 0x47000164 - CALL
+  0x1904 - 0x16300000 - POP
+  0x1908 - 0x13300120 - ST
+  0x190C - 0x01000000 - HALT
+log_excerpt: |
+  tick=    1 | PC=0x180C | IF=1808 ID=---- EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=    2 | PC=0x1810 | IF=180C ID=1808 EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=  405 | PC=0x1914 | IF=1910 ID=190C EX=1908 WB=---- | R0=10 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=  406 | PC=0x1914 | IF=1910 ID=---- EX=---- WB=1908 | R0=10 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0

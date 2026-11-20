@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+build/
+.idea/
+.mypy_cache/
+.ruff_cache/
+*.bin
+*.lst
+*.ast
+*.log

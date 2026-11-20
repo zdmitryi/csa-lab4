@@ -1,0 +1,48 @@
+algorithm: "trap_demo"
+source: |
+  (setq eof 0)
+  (setq nested 0)
+
+  (defun on-input ()
+    (do
+      (setq c (in 0))
+      (if (= c -1)
+          (setq eof 1)
+          (do
+            (out 1 c)
+            (if (= c 65)
+                (do
+                  (ei)
+                  (while (= nested 0) (do))
+                  (out 1 62))
+                (setq nested 1))))))
+
+  (interrupt-handler on-input 0)
+
+  (while (= eof 0) (do))
+  (print-char 10)
+input_schedule: [[10, "A"], [1000, "B"], [3000, "EOF"]]
+expected_output: "AB>\n"
+expected_ticks: 6000
+expected_interrupts: 3
+expected_overrun: 0
+machine_code_sha256: "e400ea3f2ebd74da96250b870a65307011f42638b1c42d7f6159a37c7665e890"
+listing_excerpt: |
+  0x197C - 0x40001948 - JMP
+  0x1980 - 0x10000000 - LDI
+  0x1984 - 0x11300120 - LD
+  0x1988 - 0x15300000 - PUSH
+  0x198C - 0x1000000A - LDI
+  0x1990 - 0x15000000 - PUSH
+  0x1994 - 0x16000000 - POP
+  0x1998 - 0x13000120 - ST
+  0x199C - 0x47000164 - CALL
+  0x19A0 - 0x16300000 - POP
+  0x19A4 - 0x13300120 - ST
+  0x19A8 - 0x01000000 - HALT
+log_excerpt: |
+  tick=    1 | PC=0x1900 | IF=18FC ID=---- EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=    2 | PC=0x1904 | IF=1900 ID=18FC EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=   23 | INTR accepted -> PC=0x1808 depth=1 saved_pc=0x194C
+  tick= 3076 | PC=0x19B0 | IF=19AC ID=19A8 EX=19A4 WB=---- | R0=10 R1=0 R2=0 R3=0 | Z=1 N=0 C=0 | INTR=off pend=0
+  tick= 3077 | PC=0x19B0 | IF=19AC ID=---- EX=---- WB=19A4 | R0=10 R1=0 R2=0 R3=0 | Z=1 N=0 C=0 | INTR=off pend=0

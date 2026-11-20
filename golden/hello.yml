@@ -1,0 +1,26 @@
+﻿algorithm: "hello"
+source: |
+  (print-str "Hello, world!")
+  (print-char 10)
+input_schedule: []
+expected_output: "Hello, world!\n"
+expected_ticks: 7000
+machine_code_sha256: "465eeeabbdc165ed3780011f4db5ed312244f04abd7c1cdcc2f35fa764e5d577"
+listing_excerpt: |
+  0x1860 - 0x16300000 - POP
+  0x1864 - 0x13300124 - ST
+  0x1868 - 0x11300120 - LD
+  0x186C - 0x15300000 - PUSH
+  0x1870 - 0x1000000A - LDI
+  0x1874 - 0x15000000 - PUSH
+  0x1878 - 0x16000000 - POP
+  0x187C - 0x13000120 - ST
+  0x1880 - 0x47000164 - CALL
+  0x1884 - 0x16300000 - POP
+  0x1888 - 0x13300120 - ST
+  0x188C - 0x01000000 - HALT
+log_excerpt: |
+  tick=    1 | PC=0x180C | IF=1808 ID=---- EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=    2 | PC=0x1810 | IF=180C ID=1808 EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick= 1301 | PC=0x1894 | IF=1890 ID=188C EX=1888 WB=---- | R0=10 R1=0 R2=0 R3=0 | Z=1 N=0 C=0 | INTR=off pend=0
+  tick= 1302 | PC=0x1894 | IF=1890 ID=---- EX=---- WB=1888 | R0=10 R1=0 R2=0 R3=0 | Z=1 N=0 C=0 | INTR=off pend=0

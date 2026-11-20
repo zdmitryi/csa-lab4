@@ -1,0 +1,36 @@
+algorithm: "pipeline_demo"
+source: |
+  (defun sq (x)
+    (* x x))
+
+  (setq i 1)
+  (setq s 0)
+  (while (<= i 100)
+    (do
+      (setq s (+ s (sq i)))
+      (setq i (+ i 1))))
+
+  (print-int s)
+  (print-char 10)
+expected_output: "338350\n"
+expected_ticks: 8000
+ticks_no_pipeline: 22653
+machine_code_sha256: "78a021b343a17ec8f36337e9e7e49a181ff1ead36b7ac16b6649617805141a1c"
+listing_excerpt: |
+  0x1920 - 0x16300000 - POP
+  0x1924 - 0x1330012C - ST
+  0x1928 - 0x11300120 - LD
+  0x192C - 0x15300000 - PUSH
+  0x1930 - 0x1000000A - LDI
+  0x1934 - 0x15000000 - PUSH
+  0x1938 - 0x16000000 - POP
+  0x193C - 0x13000120 - ST
+  0x1940 - 0x47000164 - CALL
+  0x1944 - 0x16300000 - POP
+  0x1948 - 0x13300120 - ST
+  0x194C - 0x01000000 - HALT
+log_excerpt: |
+  tick=    1 | PC=0x1828 | IF=1824 ID=---- EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=    2 | PC=0x182C | IF=1828 ID=1824 EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick= 6361 | PC=0x1954 | IF=1950 ID=194C EX=1948 WB=---- | R0=10 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick= 6362 | PC=0x1954 | IF=1950 ID=---- EX=---- WB=1948 | R0=10 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0

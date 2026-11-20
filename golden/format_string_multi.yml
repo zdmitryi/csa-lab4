@@ -1,0 +1,79 @@
+algorithm: "format_string_multi"
+source: |
+  (defun format-string (s out)
+    (do
+      (setq i 0)
+      (setq j 0)
+      (setq err 0)
+      (setq c (char-at s i))
+      (while (and (/= c -1) (= err 0))
+        (do
+          (if (= c 37)
+              (do
+                (setq k (+ i 1))
+                (setq left 0)
+                (if (= (char-at s k) 45)
+                    (do
+                      (setq left 1)
+                      (setq k (+ k 1))))
+                (setq w (scan-width s k))
+                (setq k __spec_end)
+                (if (= (char-at s k) 100)
+                    (do
+                      (setq v (read-int-line))
+                      (if (= __in_err 1)
+                          (setq err 1)
+                          (setq j (write-padded v out j
+                                                (if (= left 1)
+                                                    (- 0 w)
+                                                    w))))
+                      (setq i (+ k 1)))
+                    (do
+                      (char-set out j c)
+                      (setq j (+ j 1))
+                      (setq i (+ i 1)))))
+              (do
+                (char-set out j c)
+                (setq j (+ j 1))
+                (setq i (+ i 1))))
+          (setq c (char-at s i))))
+      (if (= err 1)
+          -1
+          (do
+            (char-set out j 0)
+            j))))
+
+  (setq fmt (buf 33))
+  (setq out (buf 1024))
+  (setq flen (read-line-limited fmt 33))
+  (if (= flen -1)
+      (print-str "-1")
+      (do
+        (setq n (format-string fmt out))
+        (if (= n -1)
+            (print-str "-1")
+            (print-str out))))
+  (print-char 10)
+input_schedule: "Foo %d bar %d\n232\n43\n"
+expected_output: "Foo 232 bar 43\n"
+expected_ticks: 70000
+machine_code_sha256: "3b7710ae6b1c435649136bd96bb85d88b2f2806818c8bff351a3850ccecc7df3"
+listing_excerpt: |
+  0x1F88 - 0x16300000 - POP
+  0x1F8C - 0x13300124 - ST
+  0x1F90 - 0x11300120 - LD
+  0x1F94 - 0x15300000 - PUSH
+  0x1F98 - 0x1000000A - LDI
+  0x1F9C - 0x15000000 - PUSH
+  0x1FA0 - 0x16000000 - POP
+  0x1FA4 - 0x13000120 - ST
+  0x1FA8 - 0x47000164 - CALL
+  0x1FAC - 0x16300000 - POP
+  0x1FB0 - 0x13300120 - ST
+  0x1FB4 - 0x01000000 - HALT
+log_excerpt: |
+  tick=    1 | PC=0x1DE4 | IF=1DE0 ID=---- EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=    2 | PC=0x1DE8 | IF=1DE4 ID=1DE0 EX=---- WB=---- | R0=0 R1=0 R2=0 R3=0 | Z=0 N=0 C=0 | INTR=off pend=0
+  tick=   23 | INTR accepted -> PC=0x03C0 depth=1 saved_pc=0x1E30
+  tick=22741 | PC=0x1FBC | IF=1FB8 ID=1FB4 EX=1FB0 WB=---- | R0=10 R1=0 R2=0 R3=0 | Z=1 N=0 C=0 | INTR=off pend=0
+  tick=22742 | PC=0x1FBC | IF=1FB8 ID=---- EX=---- WB=1FB0 | R0=10 R1=0 R2=0 R3=0 | Z=1 N=0 C=0 | INTR=off pend=0
